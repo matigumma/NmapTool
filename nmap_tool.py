@@ -22,10 +22,10 @@ class NmapTool(BaseTool):
     except Exception as e:
         return f"Error scanning {ip}: {e}"
 
-  def scan(self):
+  def scan(self, target_ip: str):
     nm = nmap.PortScanner()
     scan_args = '-F'
-    target_ip = self.get_tool_config('IP')
+    # target_ip = self.get_tool_config('IP')
     result = nm.scan(target_ip, arguments=scan_args)
     print(result)
     return result
