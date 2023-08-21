@@ -5,7 +5,7 @@ from typing import Type
 import nmap
 
 class NmapInput(BaseModel):
-  ip: str =  Field(..., description="IP address from host")
+  ip: str  =  Field(..., description="IP address from host")
 
 class NmapTool(BaseTool):
   """
@@ -16,13 +16,13 @@ class NmapTool(BaseTool):
   description: str = "Performs a basic Nmap scan on a IP"
   
   def _execute(self, ip: str = "127.0.0.1"):
-    # ip args is not in use...
+    output = self.scan()
+    return output + ip
+
+  def scan(self):
     nm = nmap.PortScanner()
     scan_args = '-F'
-    target_ip =self.get_tool_config('IP')
-    # print(target_ip)
+    target_ip = self.get_tool_config('IP')
     result = nm.scan(target_ip, arguments=scan_args)
     print(result)
-    # Process results
-
     return result
