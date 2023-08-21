@@ -15,9 +15,12 @@ class NmapTool(BaseTool):
   args_schema: Type[BaseModel] = NmapInput
   description: str = "Performs a basic Nmap scan on a IP"
   
-  def _execute(self, ip: str = "127.0.0.1"):
-    output = self.scan()
-    return output + ip
+  def _execute(self, ip: str):
+    try:
+        result = self.scan(ip)
+        return f"Scan Result for {ip}:\n {result}"
+    except Exception as e:
+        return f"Error scanning {ip}: {e}"
 
   def scan(self):
     nm = nmap.PortScanner()
